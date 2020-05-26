@@ -430,7 +430,8 @@ class DotsIndicator extends AnimatedWidget {
       ),
     );
     double zoom = 1.0 + (dotIncreaseSize - 1.0) * selectedness;
-    final dotColor = zoom > 1.0 ? increasedColor : color;
+    //final dotColor = zoom > 1.0 ? increasedColor : color;
+    final dotColor = controller.page?.round() == index ? increasedColor : color;
     return Container(
       width: dotSpacing,
       child: Center(
