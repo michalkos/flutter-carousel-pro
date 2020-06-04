@@ -94,6 +94,12 @@ class Carousel extends StatefulWidget {
   //On image change event, passes previous image index and current image index as arguments
   final void Function(int, int) onImageChange;
 
+  //The fraction of the viewport that each page should occupy.
+  final double viewportFraction;
+
+  //The page to show when first creating the Carousel.
+  final int initialPage;
+
   Carousel({
     this.images,
     this.animationCurve = Curves.ease,
@@ -122,6 +128,8 @@ class Carousel extends StatefulWidget {
     this.onImageTap,
     this.onImageChange,
     this.defaultImage,
+    this.viewportFraction = 1.0,
+    this.initialPage = 0,
   });
 
   @override
@@ -131,12 +139,12 @@ class Carousel extends StatefulWidget {
 class CarouselState extends State<Carousel> {
   Timer timer;
   int _currentImageIndex = 0;
-  PageController _controller = PageController();
+  PageController _controller;
 
   @override
   void initState() {
     super.initState();
-
+    _controller = PageController(viewportFraction: widget.viewportFraction, initialPage: 0);
     if (widget.images != null && widget.images.isNotEmpty) {
       if (widget.autoplay) {
         timer = Timer.periodic(widget.autoplayDuration, (_) {
@@ -430,7 +438,7 @@ class DotsIndicator extends AnimatedWidget {
       ),
     );
     double zoom = 1.0 + (dotIncreaseSize - 1.0) * selectedness;
-    final dotColor = selectedness > 0.7 ? increasedColor : color;
+    final dotColor = zoom > 1.0 ? increasedColor : color;
     return Container(
       width: dotSpacing,
       child: Center(
