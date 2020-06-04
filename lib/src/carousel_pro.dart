@@ -438,7 +438,7 @@ class DotsIndicator extends AnimatedWidget {
       ),
     );
     double zoom = 1.0 + (dotIncreaseSize - 1.0) * selectedness;
-    final dotColor = zoom > 1.0 ? increasedColor : color;
+    final dotColor = selectedness > 0.7 ? increasedColor : color;
     return Container(
       width: dotSpacing,
       child: Center(
